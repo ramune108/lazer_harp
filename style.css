@@ -1,0 +1,111 @@
+/* 全体のリセット */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* ステージの闇 */
+    overflow: hidden;
+    color: #00ff88; /* 平沢進レーザーグリーン */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* 3D描画エリア */
+canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* 開始画面（オーバーレイ） */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 奥行きのあるグラデーション */
+    background: radial-gradient(circle at center, #002211 0%, #000000 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border: 1px solid #004422;
+}
+
+/* タイトル文字 */
+h1 {
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    margin: 0;
+    text-shadow: 0 0 20px #00ff88;
+    animation: glow 2s infinite alternate;
+}
+
+p {
+    font-size: 1rem;
+    opacity: 0.7;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+/* 開始ボタン */
+#start-btn {
+    margin-top: 40px;
+    padding: 15px 40px;
+    background: transparent;
+    color: #00ff88;
+    border: 2px solid #00ff88;
+    font-size: 1.2rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ボタンにマウスを乗せた時 */
+#start-btn:hover {
+    background-color: #00ff88;
+    color: #000;
+    box-shadow: 0 0 30px #00ff88;
+}
+
+/* ステータス表示（HUD風） */
+#status {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 10;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    background: rgba(0, 40, 20, 0.5);
+    padding: 5px 15px;
+    border-left: 3px solid #00ff88;
+    pointer-events: none;
+}
+
+/* 文字がぼんやり光るアニメーション */
+@keyframes glow {
+    from { text-shadow: 0 0 10px #00ff88; }
+    to { text-shadow: 0 0 30px #00ff88, 0 0 10px #ffffff; }
+}
+
+/* 画面の端に走るノイズのような装飾（任意） */
+#overlay::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 136, 0.03) 0px,
+        rgba(0, 255, 136, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+}
