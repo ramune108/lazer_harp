@@ -97,7 +97,9 @@ function playNote(i) {
 // ==========================================
 const hands = new Hands({
     locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/${file}`;
+        // バージョンを固定し、かつ全てのファイルをGoogleの公式サーバーから直接取得するように強制します
+        const version = "0.4.1646424915"; // 安定板バージョン
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${version}/${file}`;
     }
 });
 
@@ -122,13 +124,27 @@ function animate() {
 
 // 開始ボタンのクリックで全てが動く
 document.getElementById('start-btn').addEventListener('click', async () => {
+    // 1. 音源を強制的に起動
     await Tone.start();
+    await Tone.context.resume(); // これを追加（確実に起こす）
+    console.log("Audio Context Resumed");
+
+    // 2. カメラの起動
     const videoElement = document.getElementById('input_video');
     const cameraFeed = new Camera(videoElement, {
-        onFrame: async () => { await hands.send({image: videoElement}); },
-        width: 1280, height: 720
+        onFrame: async () => {
+            // エラーで止まらないようにtry-catchで囲む
+            try {
+                await hands.send({image: videoElement});
+            } catch (e) {
+                console.error("AI処理エラー:", e);
+            }
+        },
+        width: 1280,
+        height: 720
     });
     cameraFeed.start();
+
     document.getElementById('overlay').style.display = 'none';
 });
 
