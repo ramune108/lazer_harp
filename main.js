@@ -96,7 +96,9 @@ function playNote(i) {
 // 5. AI (MediaPipe) のハンドトラッキング
 // ==========================================
 const hands = new Hands({
-    locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+    locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/${file}`;
+    }
 });
 
 hands.onResults((results) => {
